@@ -35,17 +35,26 @@
             color: #2DD4BF;
             letter-spacing: 0.5px;
         }
-        .silent-tag {
-            background: #022C22;
-            border: 1px solid #059669;
+        
+        /* Sound Toggle Button */
+        .sound-btn {
+            background: #064E3B;
+            border: 1.5px solid #10B981;
             color: #34D399;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 12px;
             font-weight: 800;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sound-btn.muted {
+            background: #1E293B;
+            border-color: #475569;
+            color: #94A3B8;
         }
 
         /* Control Panel */
@@ -92,7 +101,7 @@
             cursor: pointer;
             white-space: nowrap;
             box-shadow: 0 0 15px rgba(13, 148, 136, 0.4);
-            transition: transform 0.1s;
+            transition: all 0.1s;
         }
         .btn-submit:active {
             transform: scale(0.92);
@@ -117,12 +126,12 @@
             background: #DC2626 !important;
             border-color: #EF4444 !important;
             color: #FFF !important;
-            box-shadow: 0 0 18px rgba(239, 68, 68, 0.8) !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8) !important;
             animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            50% { transform: scale(1.03); }
             100% { transform: scale(1); }
         }
 
@@ -164,7 +173,7 @@
             font-weight: 800;
         }
 
-        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY */
+        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY (32pt) */
         .card-main {
             background: #05070E;
             border: 2px solid #0D9488;
@@ -179,7 +188,7 @@
         }
         .card-main.flash {
             border-color: #FACC15;
-            box-shadow: 0 0 45px rgba(250, 204, 21, 0.5);
+            box-shadow: 0 0 45px rgba(250, 204, 21, 0.6);
         }
 
         /* Block 1: Mệnh */
@@ -269,10 +278,11 @@
 
     <div class="header-bar">
         <div class="brand-title">✦ THÂN THƯƠNG LIVE ASSISTANT</div>
-        <div class="silent-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <span>IM LẶNG 100% (KHÔNG TIẾNG BÁO)</span>
-        </div>
+        <!-- Sound alert toggle: Click to toggle sound notification on/off -->
+        <button class="sound-btn" id="btnSound" onclick="toggleSound()">
+            <span id="soundIcon">🔔</span>
+            <span id="soundText">Tiếng báo: BẬT</span>
+        </button>
     </div>
 
     <!-- Control Panel -->
@@ -507,7 +517,7 @@
             let year = null;
             let name = "Khách";
 
-            // 1. Check 4 digits anywhere
+            // 1. Check 4 digits
             let m4 = str.match(/(?:^|\D)(19[5-9][0-9]|20[0-2][0-9])(?:$|\D)/);
             if (m4) {
                 year = parseInt(m4[1]);
@@ -558,7 +568,65 @@
             }
         });
 
-        // 100% SILENT MICROPHONE (NO BEEP, NO SOUND, ZERO AUDIO OUTPUT)
+        // ----------------- SOUND ALERT (AUDIO CHIME) -----------------
+        let soundAlertEnabled = true; // Default: BẬT TIẾNG BÁO THEO YÊU CẦU CỦA MẸ
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function toggleSound() {
+            soundAlertEnabled = !soundAlertEnabled;
+            const btn = document.getElementById('btnSound');
+            const lbl = document.getElementById('soundText');
+            const icon = document.getElementById('soundIcon');
+            if (soundAlertEnabled) {
+                btn.classList.remove('muted');
+                lbl.innerText = 'Tiếng báo: BẬT';
+                icon.innerText = '🔔';
+                playBeep('on');
+            } else {
+                btn.classList.add('muted');
+                lbl.innerText = 'Tiếng báo: TẮT';
+                icon.innerText = '🔇';
+            }
+        }
+
+        function playBeep(type) {
+            if (!soundAlertEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'on') {
+                    // Pleasant rising chime (650Hz -> 880Hz)
+                    osc.frequency.setValueAtTime(650, ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.2);
+                } else {
+                    // Soft low chime (440Hz -> 330Hz)
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.setValueAtTime(330, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.2);
+                }
+            } catch(e) {
+                console.log('Audio error:', e);
+            }
+        }
+
+        // ----------------- MICROPHONE WITH SOUND ALERT -----------------
         let recognition = null;
         let isListening = false;
 
@@ -577,8 +645,9 @@
                 isListening = true;
                 document.getElementById('btnMic').classList.add('listening');
                 document.getElementById('micText').innerText = 'ĐANG NGHE...';
-                document.getElementById('micIndicator').innerText = '🔴 Mic đang BẬT';
+                document.getElementById('micIndicator').innerText = '🔴 Mic: Đang BẬT';
                 document.getElementById('micIndicator').style.color = '#EF4444';
+                playBeep('on'); // Tiếng bíp báo đã bật
             };
 
             recognition.onend = () => {
@@ -589,6 +658,7 @@
                     document.getElementById('micText').innerText = 'BẬT MIC';
                     document.getElementById('micIndicator').innerText = 'Mic: Tắt';
                     document.getElementById('micIndicator').style.color = '#94A3B8';
+                    playBeep('off'); // Tiếng bíp báo đã tắt
                 }
             };
 
@@ -602,12 +672,14 @@
             };
 
             recognition.onerror = (event) => {
-                // Completely silent: NEVER play sound or beep
                 console.log('Voice status:', event.error);
             };
         }
 
         function toggleMic() {
+            // Unlock audio context on user click
+            getAudioContext();
+            
             if (!recognition) initVoice();
             if (!recognition) return;
             if (isListening) {
