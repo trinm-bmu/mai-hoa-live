@@ -6,324 +6,452 @@
     <title>Trợ Lý Live — Thân Thương Cải Mệnh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #090D16;
-            color: #F8FAFC;
-            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: 'Inter', -apple-system, sans-serif;
             min-height: 100vh;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            padding: 16px;
         }
-        header {
+        
+        /* Top Bar */
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #1E293B;
-            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #222;
+            margin-bottom: 12px;
         }
-        .brand {
-            font-size: 16px;
-            font-weight: 800;
+        .brand-title {
+            font-size: 18px;
+            font-weight: 900;
             color: #2DD4BF;
             letter-spacing: 0.5px;
         }
-        .status-pill {
+        .mic-toggle {
+            background: #0F766E;
+            color: #FFF;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: #1E293B;
-            color: #94A3B8;
-        }
-        .status-pill.active {
-            background: rgba(13, 148, 136, 0.2);
-            color: #2DD4BF;
-            border: 1px solid #0D9488;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-        .mic-btn-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .btn-mic {
-            background: linear-gradient(135deg, #0F766E, #0D9488);
-            border: none;
-            color: white;
-            padding: 16px 36px;
-            border-radius: 40px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(15, 118, 110, 0.6);
             transition: all 0.2s;
         }
-        .btn-mic.listening {
-            background: linear-gradient(135deg, #DC2626, #EF4444);
-            box-shadow: 0 4px 25px rgba(239, 68, 68, 0.6);
-            animation: pulse 1.5s infinite;
+        .mic-toggle.listening {
+            background: #DC2626;
+            box-shadow: 0 0 25px rgba(220, 38, 38, 0.8);
+            animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.04); }
+            50% { transform: scale(1.03); }
             100% { transform: scale(1); }
         }
-        .hearing-box {
-            background: #131B2E;
+
+        /* Quick Test Bar */
+        .quick-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        .quick-btn {
+            background: #111827;
+            border: 1px solid #374151;
+            color: #9CA3AF;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .quick-btn:hover {
+            background: #1F2937;
+            color: #F3F4F6;
+            border-color: #0D9488;
+        }
+
+        /* Voice Status Banner */
+        .hearing-banner {
+            background: #0B1120;
             border: 1px solid #1E293B;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 15px;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
             color: #94A3B8;
-            margin-bottom: 16px;
-            min-height: 48px;
-            display: flex;
-            align-items: center;
-        }
-        .hearing-box span {
-            color: #F8FAFC;
-            font-weight: 600;
-            margin-left: 6px;
-        }
-        .card-result {
-            background: #0F172A;
-            border: 2px solid #0D9488;
-            border-radius: 16px;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        }
-        .card-empty {
-            border: 2px dashed #1E293B;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #64748B;
-            padding: 40px 20px;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        .client-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1E293B;
-            padding: 10px 16px;
-            border-radius: 10px;
-        }
-        .client-name {
-            font-size: 18px;
-            font-weight: 800;
-            color: #F8FAFC;
-        }
-        .client-dob {
-            font-size: 14px;
-            color: #2DD4BF;
-            font-weight: 600;
-        }
-        .hex-banner {
-            background: linear-gradient(135deg, #134E4A, #042F2E);
-            border: 1px solid #14B8A6;
-            border-radius: 12px;
-            padding: 14px 18px;
-            text-align: center;
-        }
-        .hex-name {
-            font-size: 24px;
-            font-weight: 800;
-            color: #5EEAD4;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .hex-sub {
-            font-size: 14px;
-            color: #CCFBF1;
-        }
-        .reading-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .bullet-item {
-            background: #131B2E;
-            border-left: 4px solid #0D9488;
-            padding: 12px 14px;
-            border-radius: 0 8px 8px 0;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-        .bullet-item.alert {
-            border-left-color: #EF4444;
-            background: rgba(239, 68, 68, 0.08);
-        }
-        .bullet-item.action {
-            border-left-color: #F59E0B;
-            background: rgba(245, 158, 11, 0.08);
-        }
-        .bullet-title {
-            font-weight: 800;
-            font-size: 16px;
-            margin-bottom: 4px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
-        .bullet-desc {
-            color: #CBD5E1;
-            font-size: 15px;
+        .hearing-text {
+            color: #F8FAFC;
+            font-weight: 700;
+        }
+
+        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY */
+        .card-main {
+            background: #05070E;
+            border: 2px solid #0D9488;
+            border-radius: 14px;
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 0 35px rgba(13, 148, 136, 0.25);
+        }
+
+        /* Block 1: Mệnh */
+        .block-menh {
+            background: #0B132B;
+            border: 1.5px solid #14B8A6;
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .menh-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: #FACC15; /* Vàng rực */
+            line-height: 1.25;
+            margin-bottom: 4px;
+        }
+        .menh-trait {
+            font-size: 18px;
+            font-weight: 700;
+            color: #5EEAD4; /* Xanh ngọc */
+            line-height: 1.35;
+        }
+
+        /* Block 2: Quẻ 7 ngày */
+        .block-que {
+            background: #111827;
+            border: 1.5px solid #F59E0B;
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .que-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #FB923C; /* Cam sáng */
+            line-height: 1.25;
+            margin-bottom: 4px;
+        }
+        .que-core {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FDE047; /* Vàng */
+            line-height: 1.35;
+        }
+
+        /* Content Blocks: 4 Section Grid / List */
+        .section-box {
+            background: #080C17;
+            border-left: 6px solid #64748B;
+            border-radius: 0 8px 8px 0;
+            padding: 10px 14px;
+        }
+        .section-box.current {
+            border-left-color: #60A5FA; /* Xanh dương */
+        }
+        .section-box.alert {
+            border-left-color: #EF4444; /* Đỏ rực */
+            background: #140507;
+        }
+        .section-box.lucky {
+            border-left-color: #10B981; /* Xanh lá */
+            background: #02170D;
+        }
+        .section-box.ally {
+            border-left-color: #A855F7; /* Tím */
+            background: #0F081C;
+        }
+
+        .sec-header {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sec-content {
+            font-size: 21px; /* CHỮ CỰC TO 21-26px THEO YÊU CẦU */
+            font-weight: 700;
+            line-height: 1.4;
+            color: #FFFFFF;
+        }
+        .sec-content b {
+            color: #FDE047;
+        }
+
+        /* Input Manual Bottom */
+        .manual-bar {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
         }
         .manual-input {
-            margin-top: 12px;
-            display: flex;
-            gap: 8px;
-        }
-        .manual-input input {
             flex: 1;
-            background: #1E293B;
-            border: 1px solid #334155;
-            color: white;
+            background: #111827;
+            border: 1px solid #374151;
+            color: #FFF;
             padding: 10px 14px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
         }
-        .manual-input button {
-            background: #0F766E;
-            border: none;
+        .manual-btn {
+            background: #0D9488;
             color: white;
-            padding: 10px 18px;
+            border: none;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
+        }
+
+        /* Responsive scaling */
+        @media (min-width: 768px) {
+            body { padding: 24px; max-width: 950px; margin: 0 auto; }
+            .menh-title { font-size: 32px; }
+            .menh-trait { font-size: 24px; }
+            .que-title { font-size: 30px; }
+            .que-core { font-size: 24px; }
+            .sec-header { font-size: 24px; }
+            .sec-content { font-size: 26px; } /* Đạt mốc 26-32pt trên iPad/Laptop */
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">THÂN THƯƠNG • TRỢ LÝ LIVE</div>
-        <div class="status-pill" id="statusPill">
-            <div class="status-dot"></div>
-            <span id="statusText">Chờ bật Mic</span>
-        </div>
-    </header>
-
-    <div class="mic-btn-container">
-        <button class="btn-mic" id="btnMic" onclick="toggleMic()">
-            <svg id="micIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-            <span id="micLabel">BẬT MIC NGHE LIVE</span>
+    <div class="top-bar">
+        <div class="brand-title">✦ THÂN THƯƠNG LIVE ASSISTANT</div>
+        <button class="mic-toggle" id="btnMic" onclick="toggleMic()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            <span id="micLabel">BẬT MIC NGHE</span>
         </button>
     </div>
 
-    <div class="hearing-box" id="hearingBox">
-        Đang nghe: <span id="hearingText">Bấm nút trên để bắt đầu nghe Mẹ nói...</span>
+    <!-- Quick Buttons for instant test -->
+    <div class="quick-bar">
+        <button class="quick-btn" onclick="testFast('Lan', 1987)">Đinh Mão 1987</button>
+        <button class="quick-btn" onclick="testFast('Hải', 1990)">Canh Ngọ 1990</button>
+        <button class="quick-btn" onclick="testFast('Hương', 1995)">Ất Hợi 1995</button>
+        <button class="quick-btn" onclick="testFast('Tuấn', 1988)">Mậu Thìn 1988</button>
+        <button class="quick-btn" onclick="testFast('Linh', 2002)">Nhâm Ngọ 2002</button>
+        <button class="quick-btn" onclick="testFast('Thành', 1983)">Quý Hợi 1983</button>
+        <button class="quick-btn" onclick="testFast('Nga', 1992)">Nhâm Thân 1992</button>
     </div>
 
-    <div id="outputContainer" class="card-result card-empty">
-        <div>
-            <b>HƯỚNG DẪN TEST NHANH TRONG 5 GIÂY:</b><br><br>
-            1. Bấm nút <b>BẬT MIC NGHE LIVE</b> ở trên.<br>
-            2. Mẹ nói mẫu 1 câu tự nhiên: <i>"Nguyễn Thu Thảo sinh ngày 15 tháng 8 năm 1992"</i> (hoặc chỉ cần năm sinh: <i>"Trần Văn Nam sinh năm 1988"</i>).<br>
-            3. AI tự nhận diện và bung kết quả quẻ, điểm nghẽn và lời khuyên tức thì!
+    <div class="hearing-banner">
+        <span>Mic:</span>
+        <span class="hearing-text" id="hearingText">Bấm 'BẬT MIC' rồi đọc tên + năm sinh (Vd: "Chị Hạnh 1987")...</span>
+    </div>
+
+    <!-- MAIN RESULT CONTAINER (DEFAULT SAMPLE) -->
+    <div class="card-main" id="resultCard">
+        <!-- 1. Mệnh Block -->
+        <div class="block-menh">
+            <div class="menh-title" id="outMenh">ĐINH MÃO 1987 • LƯ TRUNG HỎA (LỬA TRONG LÒ)</div>
+            <div class="menh-trait" id="outTrait">✦ ĐẶC BIỆT: Khẩu xà tâm phật • Nặng gánh bao đồng • Dễ hao tài vì cả nể</div>
+        </div>
+
+        <!-- 2. Quẻ 7 Ngày Block -->
+        <div class="block-que">
+            <div class="que-title" id="outQue">[QUẺ 7 NGÀY]: THIÊN LÔI VÔ VỌNG ➔ THIÊN ĐỊA BĨ (HÀO 1 ĐỘNG)</div>
+            <div class="que-core" id="outQueCore">✦ LÕI TUẦN: Tiền treo trên giấy • Càng vùng vẫy càng kẹt vốn</div>
+        </div>
+
+        <!-- 3. Hiện trạng ứ đọng -->
+        <div class="section-box current">
+            <div class="sec-header" style="color: #60A5FA;">1. HIỆN TRẠNG (Ứ ĐỘNG / SAI LẦM Ở ĐÂU):</div>
+            <div class="sec-content" id="outCurrent">
+                • Cho nợ gối đầu cả nể. Tiền lẻ trôi, tiền chẵn kẹt.<br>
+                • Ôm đồm làm thay nhân sự. Đầu óc quá tải, kiệt quệ năng lượng.
+            </div>
+        </div>
+
+        <!-- 4. Vấn đề lớn nên tránh (Critical Danger) -->
+        <div class="section-box alert">
+            <div class="sec-header" style="color: #F87171;">2. CẢNH BÁO NGUY CƠ (NÊN TRÁNH GẤP):</div>
+            <div class="sec-content" id="outDanger">
+                • <b>[Thứ Tư – Thứ Năm]:</b> Nguy cơ đối tác bùng nợ / hủy cọc phút 89.<br>
+                • <b>[Thứ Bảy]:</b> Tránh ký hợp đồng mới, tuyệt đối cấm xuất hàng gối đầu.
+            </div>
+        </div>
+
+        <!-- 5. May mắn đón nhận (Critical Lucky) -->
+        <div class="section-box lucky">
+            <div class="sec-header" style="color: #34D399;">3. MAY MẮN ĐÓN NHẬN:</div>
+            <div class="sec-content" id="outLucky">
+                • <b>[Thứ Sáu / Mùng 1]:</b> Thu hồi được 1 khoản tiền tươi bất ngờ.<br>
+                • Có người mở lời kết nối nguồn hàng / đối tác làm ăn mới.
+            </div>
+        </div>
+
+        <!-- 6. Quý nhân -->
+        <div class="section-box ally">
+            <div class="sec-header" style="color: #C084FC;">4. QUÝ NHÂN PHÙ TRỢ:</div>
+            <div class="sec-content" id="outAlly">
+                • <b>Chân dung:</b> Nam lớn hơn 4–6 tuổi (tuổi Hợi/Mùi), làm mảng kỹ thuật/vốn.<br>
+                • <b>Nhận diện:</b> Điềm đạm, ít nói, ăn mặc tối giản, từ phương Tây Bắc đến.
+            </div>
         </div>
     </div>
 
-    <div class="manual-input">
-        <input type="text" id="manualText" placeholder="Hoặc gõ nhanh tên + năm sinh (vd: Lan 1995)...">
-        <button onclick="handleManual()">BỐC QUẺ</button>
+    <!-- Manual input bar -->
+    <div class="manual-bar">
+        <input type="text" class="manual-input" id="inpManual" placeholder="Gõ nhanh: Tên + Năm sinh (Vd: Lan 1995)...">
+        <button class="manual-btn" onclick="submitManual()">XEM NGAY</button>
     </div>
 
     <script>
-        const trigrams = ['Khôn', 'Càn', 'Đoài', 'Ly', 'Chấn', 'Tốn', 'Khảm', 'Cấn', 'Khôn'];
-        const hexagramNames = {
-            '11': 'Thuần Càn', '12': 'Thiên Trạch Lý', '13': 'Thiên Hỏa Đồng Nhân', '14': 'Thiên Lôi Vô Vọng',
-            '15': 'Thiên Phong Cấu', '16': 'Thiên Thủy Tụng', '17': 'Thiên Sơn Độn', '18': 'Thiên Địa Bĩ',
-            '21': 'Trạch Thiên Quải', '22': 'Thuần Đoài', '23': 'Trạch Hỏa Cách', '24': 'Trạch Lôi Tùy',
-            '25': 'Trạch Phong Đại Quá', '26': 'Trạch Thủy Khốn', '27': 'Trạch Sơn Hàm', '28': 'Trạch Địa Tụy',
-            '31': 'Hỏa Thiên Đại Hữu', '32': 'Hỏa Trạch Khuê', '33': 'Thuần Ly', '34': 'Hỏa Lôi Phệ Hạp',
-            '35': 'Hỏa Phong Đỉnh', '36': 'Hỏa Thủy Vị Tế', '37': 'Hỏa Sơn Lữ', '38': 'Hỏa Địa Tấn',
-            '41': 'Lôi Thiên Đại Tráng', '42': 'Lôi Trạch Quy Muội', '43': 'Lôi Hỏa Phong', '44': 'Thuần Chấn',
-            '45': 'Lôi Phong Hằng', '46': 'Lôi Thủy Giải', '47': 'Lôi Sơn Tiểu Quá', '48': 'Lôi Địa Dự',
-            '51': 'Phong Thiên Tiểu Súc', '52': 'Phong Trạch Trung Phu', '53': 'Phong Hỏa Gia Nhân', '54': 'Phong Lôi Ích',
-            '55': 'Thuần Tốn', '56': 'Phong Thủy Hoán', '57': 'Phong Sơn Tiệm', '58': 'Phong Địa Quan',
-            '61': 'Thủy Thiên Nhu', '62': 'Thủy Trạch Tiết', '63': 'Thủy Hỏa Ký Tế', '64': 'Thủy Lôi Truân',
-            '65': 'Thủy Phong Tỉnh', '66': 'Thuần Khảm', '67': 'Thủy Sơn Kiển', '68': 'Thủy Địa Tỷ',
-            '71': 'Sơn Thiên Đại Súc', '72': 'Sơn Trạch Tổn', '73': 'Sơn Hỏa Bí', '74': 'Sơn Lôi Di',
-            '75': 'Sơn Phong Cổ', '76': 'Sơn Thủy Mông', '77': 'Thuần Cấn', '78': 'Sơn Địa Bác',
-            '81': 'Địa Thiên Thái', '82': 'Địa Trạch Lâm', '83': 'Địa Hỏa Minh Di', '84': 'Địa Lôi Phục',
-            '85': 'Địa Phong Thăng', '86': 'Địa Thủy Sư', '87': 'Địa Sơn Khiêm', '88': 'Thuần Khôn'
+        const canList = ['Canh', 'Tân', 'Nhâm', 'Quý', 'Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ'];
+        const chiList = ['Thân', 'Dậu', 'Tuất', 'Hợi', 'Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi'];
+
+        const menh60 = {
+            'Giáp Tý': 'Hải Trung Kim (Vàng trong biển)', 'Ất Sửu': 'Hải Trung Kim (Vàng trong biển)',
+            'Bính Dần': 'Lư Trung Hỏa (Lửa trong lò)', 'Đinh Mão': 'Lư Trung Hỏa (Lửa trong lò)',
+            'Mậu Thìn': 'Đại Lâm Mộc (Gỗ rừng già)', 'Kỷ Tỵ': 'Đại Lâm Mộc (Gỗ rừng già)',
+            'Canh Ngọ': 'Lộ Bàng Thổ (Đất ven đường)', 'Tân Mùi': 'Lộ Bàng Thổ (Đất ven đường)',
+            'Nhâm Thân': 'Kiếm Phong Kim (Vàng mũi kiếm)', 'Quý Dậu': 'Kiếm Phong Kim (Vàng mũi kiếm)',
+            'Giáp Tuất': 'Sơn Đầu Hỏa (Lửa trên núi)', 'Ất Hợi': 'Sơn Đầu Hỏa (Lửa trên núi)',
+            'Bính Tý': 'Giản Hạ Thủy (Nước khe suối)', 'Đinh Sửu': 'Giản Hạ Thủy (Nước khe suối)',
+            'Mậu Dần': 'Thành Đầu Thổ (Đất trên thành)', 'Kỷ Mão': 'Thành Đầu Thổ (Đất trên thành)',
+            'Canh Thìn': 'Bạch Lạp Kim (Vàng chân đèn)', 'Tân Tỵ': 'Bạch Lạp Kim (Vàng chân đèn)',
+            'Nhâm Ngọ': 'Dương Liễu Mộc (Gỗ dương liễu)', 'Quý Mùi': 'Dương Liễu Mộc (Gỗ dương liễu)',
+            'Giáp Thân': 'Tuyền Trung Thủy (Nước trong suối)', 'Ất Dậu': 'Tuyền Trung Thủy (Nước trong suối)',
+            'Bính Tuất': 'Ốc Thượng Thổ (Đất nóc nhà)', 'Đinh Hợi': 'Ốc Thượng Thổ (Đất nóc nhà)',
+            'Mậu Tý': 'Tích Lịch Hỏa (Lửa sấm sét)', 'Kỷ Sửu': 'Tích Lịch Hỏa (Lửa sấm sét)',
+            'Canh Dần': 'Tùng Bách Mộc (Gỗ tùng bách)', 'Tân Mão': 'Tùng Bách Mộc (Gỗ tùng bách)',
+            'Nhâm Thìn': 'Trường Lưu Thủy (Nước sông dài)', 'Quý Tỵ': 'Trường Lưu Thủy (Nước sông dài)',
+            'Giáp Ngọ': 'Sa Trung Kim (Vàng trong cát)', 'Ất Mùi': 'Sa Trung Kim (Vàng trong cát)',
+            'Bính Thân': 'Sơn Hạ Hỏa (Lửa dưới núi)', 'Đinh Dậu': 'Sơn Hạ Hỏa (Lửa dưới núi)',
+            'Mậu Tuất': 'Bình Địa Mộc (Gỗ đồng bằng)', 'Kỷ Hợi': 'Bình Địa Mộc (Gỗ đồng bằng)',
+            'Canh Tý': 'Bích Thượng Thổ (Đất trên vách)', 'Tân Sửu': 'Bích Thượng Thổ (Đất trên vách)',
+            'Nhâm Dần': 'Kim Bạch Kim (Vàng pha bạc)', 'Quý Mão': 'Kim Bạch Kim (Vàng pha bạc)',
+            'Giáp Thìn': 'Phúc Đăng Hỏa (Lửa ngọn đèn)', 'Ất Tỵ': 'Phúc Đăng Hỏa (Lửa ngọn đèn)',
+            'Bính Ngọ': 'Thiên Hà Thủy (Nước trên trời)', 'Đinh Mùi': 'Thiên Hà Thủy (Nước trên trời)',
+            'Mậu Thân': 'Đại Trạch Thổ (Đất cồn lớn)', 'Kỷ Dậu': 'Đại Trạch Thổ (Đất cồn lớn)',
+            'Canh Tuất': 'Thoa Xuyến Kim (Vàng trang sức)', 'Tân Hợi': 'Thoa Xuyến Kim (Vàng trang sức)',
+            'Nhâm Tý': 'Tang Đố Mộc (Gỗ cây dâu)', 'Quý Sửu': 'Tang Đố Mộc (Gỗ cây dâu)',
+            'Giáp Dần': 'Đại Khê Thủy (Nước khe lớn)', 'Ất Mão': 'Đại Khê Thủy (Nước khe lớn)',
+            'Bính Thìn': 'Sa Trung Thổ (Đất pha cát)', 'Đinh Tỵ': 'Sa Trung Thổ (Đất pha cát)',
+            'Mậu Ngọ': 'Thiên Thượng Hỏa (Lửa trên trời)', 'Kỷ Mùi': 'Thiên Thượng Hỏa (Lửa trên trời)',
+            'Canh Thân': 'Thạch Lựu Mộc (Gỗ thạch lựu)', 'Tân Dậu': 'Thạch Lựu Mộc (Gỗ thạch lựu)',
+            'Nhâm Tuất': 'Đại Hải Thủy (Nước biển lớn)', 'Quý Hợi': 'Đại Hải Thủy (Nước biển lớn)'
         };
 
-        const hexAdvice = {
-            'Sơn Phong Cổ': {
-                core: 'Sâu mọt phá hoại, lỗ rò rỉ nội bộ, thất thoát tiền bạc ngầm.',
-                detail: 'Có kẻ thân tín, nhân viên hoặc đối tác đang bòn rút, giấu số liệu hoặc ăn hoa hồng sau lưng.',
-                action: 'Kiểm toán kho ngay, đổi mật khẩu tài khoản, sa thải nhân sự lươn lẹo, cấm cho nợ gối đầu.'
+        const traitSpecial = {
+            'Tý': 'Thông minh, nhạy bén dòng tiền • Nhưng hay lo xa, dễ đa nghi',
+            'Sửu': 'Cần cù, chịu thương chịu khó • Nhược điểm bảo thủ, phản ứng chậm',
+            'Dần': 'Bản lĩnh tiên phong, thích làm lớn • Nóng nảy, dễ tin lầm đối tác',
+            'Mão': 'Khẩu xà tâm phật, nặng tình cảm • Cả nể cho nợ, gánh việc bao đồng',
+            'Thìn': 'Tham vọng lớn, có uy lãnh đạo • Sĩ diện cao, khó nhận sai lầm',
+            'Tỵ': 'Sắc sảo, trực giác cực bén • Khép kín, hay ôm uất ức một mình',
+            'Ngọ': 'Xông xáo, kiếm tiền nhanh • Cả thèm chóng chán, giữ tiền khó',
+            'Mùi': 'Hiền lành, trọng chữ tín • Nhu nhược, không dám dứt khoát cắt lỗ',
+            'Thân': 'Linh hoạt, xoay xở giỏi • Thiếu kiên nhẫn đường dài, hay đứng núi này trông núi nọ',
+            'Dậu': 'Tỉ mỉ, sắc sảo về tiền bạc • Khó tính, hay soi tiểu tiết gây rạn nứt',
+            'Tuất': 'Chính trực, trung thành • Cố chấp, dễ bị bạn bè lợi dụng lòng tốt',
+            'Hợi': 'Hào sảng, có lộc trời ban • Buông thả kỷ luật, dễ bị lừa tiền vì tin người'
+        };
+
+        const hexDatabase = [
+            {
+                que: 'THIÊN LÔI VÔ VỌNG ➔ THIÊN ĐỊA BĨ',
+                line: 'HÀO 1 ĐỘNG',
+                core: 'Tiền treo trên giấy • Càng vùng vẫy càng kẹt vốn',
+                current: '• Cho nợ gối đầu cả nể. Tiền lẻ trôi, tiền chẵn kẹt.<br>• Ôm đồm làm thay nhân sự. Đầu óc quá tải, kiệt quệ.',
+                danger: '• <b>[Thứ Tư – Thứ Năm]:</b> Nguy cơ đối tác bùng nợ / hủy cọc phút 89.<br>• <b>[Thứ Bảy]:</b> Tránh ký hợp đồng mới, cấm xuất hàng nợ.',
+                lucky: '• <b>[Thứ Sáu / Mùng 1]:</b> Thu được 1 khoản tiền tươi bất ngờ.<br>• Có người mở lời kết nối nguồn hàng mới.',
+                ally: '• <b>Chân dung:</b> Nam lớn hơn 4–6 tuổi (tuổi Hợi/Mùi), làm mảng kỹ thuật/vốn.<br>• <b>Nhận diện:</b> Ít nói, ăn mặc tối giản, phương Tây Bắc đến.'
             },
-            'Sơn Địa Bác': {
-                core: 'Chân đất lở thì núi sụp, bào mòn tận đáy, nguy cơ vỡ nợ.',
-                detail: 'Chi phí mặt bằng/vận hành nuốt chửng lợi nhuận. Càng gồng càng cạn máu, tiền chôn vào hàng tồn.',
-                action: 'Khóa chặt két sắt, cắt lỗ điểm bán yếu, dừng mở rộng, thu tiền mặt tươi về túi.'
+            {
+                que: 'SƠN PHONG CỔ ➔ SƠN THIÊN ĐẠI SÚC',
+                line: 'HÀO 2 ĐỘNG',
+                core: 'Sâu mọt phá hoại ngầm • Thủng đáy tài chính vì người quen',
+                current: '• Có kẻ thân tín/nhân viên giấu số liệu, ăn hoa hồng sau lưng.<br>• Chi phí ngầm bào mòn lợi nhuận thực tế.',
+                danger: '• <b>[Thứ Ba – Thứ Tư]:</b> Rò rỉ thông tin khách hàng, hao hụt kho bãi.<br>• <b>[Cuối tuần]:</b> Cấm giao quyền quyết định tiền bạc cho người khác.',
+                lucky: '• <b>[Thứ Năm]:</b> Phát hiện và chặn đứng kịp thời lỗ rò rỉ.<br>• Chốt đơn hàng giá trị cao từ khách vãng lai.',
+                ally: '• <b>Chân dung:</b> Nữ chững chạc, làm việc kế toán / ngân hàng.<br>• <b>Nhận diện:</b> Cương quyết, sổ sách rõ ràng, phương Đông Bắc đến.'
             },
-            'Thiên Phong Cấu': {
-                core: 'Cạm bẫy đối tác, mập mờ tình cảm, hào 1 âm sinh họa.',
-                detail: 'Đối phương vẽ bánh vẽ hứa hẹn nhưng giấu bài, có ý đồ lợi dụng vốn hoặc tình cảm.',
-                action: 'Không ký hợp đồng vội, rà soát điều khoản phạt, yêu cầu công khai minh bạch ngay.'
+            {
+                que: 'PHONG LÔI ÍCH ➔ PHONG ĐỊA QUAN',
+                line: 'HÀO 1 ĐỘNG',
+                core: 'Thời vận bồi đắp • Tiền tươi nổ tài khoản nhưng phải khóa két',
+                current: '• Dòng tiền phục hồi, nhiều cơ hội mở ra cùng lúc.<br>• Điểm nghẽn: Ôm đồm quá nhiều mảng làm phân tán lực.',
+                danger: '• <b>[Thứ Sáu]:</b> Cấm nghe rủ rê đầu tư lướt sóng, cấm cho vay mượn.<br>• Nguy cơ tiêu hoang tiền vào việc vô bổ.',
+                lucky: '• <b>[Thứ Tư & Thứ Bảy]:</b> Ký hợp đồng lớn, tiền về két vượt mong đợi.<br>• Quý nhân rót vốn hoặc nhường phần lợi nhuận.',
+                ally: '• <b>Chân dung:</b> Người làm ăn lâu năm, tuổi Thân hoặc Tý.<br>• <b>Nhận diện:</b> Đi xe màu sẫm, nói năng đĩnh đạc, phương Đông Nam.'
             },
-            'Hỏa Thủy Vị Tế': {
-                core: 'Việc chưa thành, phút 89 ướt đuôi, sóng gió thị phi.',
-                detail: 'Sắp gặt hái thì bị phá rối, vạ miệng hoặc đối tác trở mặt làm chậm dòng tiền.',
-                action: 'Khóa miệng, dừng giải thích đôi co, ủy quyền bằng văn bản pháp lý chặt chẽ.'
+            {
+                que: 'SƠN ĐỊA BÁC ➔ ĐỊA LÔI PHỤC',
+                line: 'HÀO 6 ĐỘNG',
+                core: 'Chân đất lở núi sụp • Cắt lỗ dứt khoát để tái sinh',
+                current: '• Gồng lỗ mặt bằng/dự án vì sĩ diện. Tiền chôn vào đất/hàng tồn.<br>• Áp lực lãi vay đè nặng mỗi đêm.',
+                danger: '• <b>[Đầu tuần]:</b> Khách ép giá sâu hoặc đòi hủy kèo cọc.<br>• Cấm tiếp tục vay nóng đắp nợ cũ.',
+                lucky: '• <b>[Cuối tuần / Mùng 1]:</b> Có khách thiện chí xuất hiện trả giá mua tài sản.<br>• Được gia đình/bạn thân tháo gỡ cho 1 món nợ.',
+                ally: '• <b>Chân dung:</b> Người lớn tuổi trong gia đình hoặc trưởng bối có tiếng nói.<br>• <b>Nhận diện:</b> Mắt sáng, giọng ấm, phương Tây Nam.'
             },
-            'Phong Lôi Ích': {
-                core: 'Thời vận đại thịnh, gió sấm bồi đắp, quý nhân rót vốn.',
-                detail: 'Dòng tiền chuẩn bị nổ lớn, cơ hội ký kết hợp đồng béo bở, mở rộng thị phần.',
-                action: 'Bung sức chốt đơn, nhưng nhớ trích lập quỹ dự phòng, tuyệt đối không đầu cơ mạo hiểm.'
-            },
-            'Lôi Địa Dự': {
-                core: 'Vui vẻ phấn khởi, sấm động trên đất, cơ hội thoát hàng.',
-                detail: 'Bất động sản hoặc dự án đóng băng sắp có khách thực thiện chí vào trả giá chốt cọc.',
-                action: 'Khách trả giá hợp lý thì chấp nhận chiết khấu nhẹ 10% ký bán ngay, thu tiền tươi trả nợ.'
-            },
-            'Thiên Hỏa Đồng Nhân': {
-                core: 'Liên minh hợp tác win-win, cùng chí hướng làm việc lớn.',
-                detail: 'Hợp làm Chuyên gia, Quản lý cấp cao hoặc Cổ đông góp công ăn chia cổ phần.',
-                action: 'Để người khác gánh nợ pháp lý; bản thân giữ quy trình và két sắt thì giàu bền.'
-            },
-            'Trạch Sơn Hàm': {
-                core: 'Giao cảm tự nhiên, lòng rung động ngầm, có duyên lành.',
-                detail: 'Có người đồng hành thầm thương trộm nhớ, đánh giá cao năng lực và nhân cách của bạn.',
-                action: 'Mở lòng quan sát, chọn người làm nhiều hơn nói, dứt khoát với đào hoa sát.'
+            {
+                que: 'THIÊN HỎA ĐỒNG NHÂN ➔ THIÊN SƠN ĐỘN',
+                line: 'HÀO 3 ĐỘNG',
+                core: 'Hợp tác liên minh • Đẩy nợ cho kẻ khác, giữ trọn tiền an nhàn',
+                current: '• Đang làm chủ một mình quá mệt mỏi, gánh việc thay nhân sự.<br>• Lương tâm cả nể khiến cơ sở bị bòn rút.',
+                danger: '• <b>[Thứ Năm]:</b> Tranh chấp quyền lợi cổ đông hoặc bất đồng hướng đi.<br>• Tránh đứng tên vay mượn giùm đối tác.',
+                lucky: '• <b>[Thứ Ba & Thứ Bảy]:</b> Tìm được đối tác cùng chí hướng, gánh vác phần nặng.<br>• Dòng tiền hoa hồng / chuyên môn về đều đặn.',
+                ally: '• <b>Chân dung:</b> Nam bằng tuổi hoặc hơn 1-2 tuổi, mạng Kim hoặc Thổ.<br>• <b>Nhận diện:</b> Tác phong dứt khoát, sòng phẳng, phương Tây Bắc.'
             }
-        };
+        ];
 
+        function runAnalysis(name, year) {
+            const can = canList[year % 10];
+            const chi = chiList[year % 12];
+            const canChi = can + ' ' + chi;
+            const menh = menh60[canChi] || 'Ngũ hành tương hợp';
+            const trait = traitSpecial[chi] || 'Tâm tính thiện lương, nặng lòng gánh vác';
+
+            // Select hexagram systematically
+            const hexIndex = (year + name.length) % hexDatabase.length;
+            const data = hexDatabase[hexIndex];
+
+            // Render to DOM
+            document.getElementById('outMenh').innerText = `${canChi.toUpperCase()} ${year} • ${menh.toUpperCase()}`;
+            document.getElementById('outTrait').innerText = `✦ ĐẶC BIỆT: ${trait}`;
+            document.getElementById('outQue').innerText = `[QUẺ 7 NGÀY]: ${data.que} (${data.line})`;
+            document.getElementById('outQueCore').innerText = `✦ LÕI TUẦN: ${data.core}`;
+            document.getElementById('outCurrent').innerHTML = data.current;
+            document.getElementById('outDanger').innerHTML = data.danger;
+            document.getElementById('outLucky').innerHTML = data.lucky;
+            document.getElementById('outAlly').innerHTML = data.ally;
+        }
+
+        // Voice Recognition
         let recognition = null;
         let isListening = false;
 
-        function initSpeech() {
+        function initVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert('Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói. Hãy dùng trình duyệt Google Chrome trên điện thoại hoặc máy tính nhé Mẹ!');
+                alert('Vui lòng dùng trình duyệt Google Chrome để bật Micro!');
                 return;
             }
             recognition = new SpeechRecognition();
@@ -334,9 +462,7 @@
             recognition.onstart = () => {
                 isListening = true;
                 document.getElementById('btnMic').classList.add('listening');
-                document.getElementById('micLabel').innerText = 'ĐANG NGHE LIVE (BẤM ĐỂ DỪNG)';
-                document.getElementById('statusPill').classList.add('active');
-                document.getElementById('statusText').innerText = 'Đang nghe trực tiếp...';
+                document.getElementById('micLabel').innerText = 'ĐANG NGHE...';
             };
 
             recognition.onend = () => {
@@ -344,128 +470,61 @@
                     try { recognition.start(); } catch(e){}
                 } else {
                     document.getElementById('btnMic').classList.remove('listening');
-                    document.getElementById('micLabel').innerText = 'BẬT MIC NGHE LIVE';
-                    document.getElementById('statusPill').classList.remove('active');
-                    document.getElementById('statusText').innerText = 'Chờ bật Mic';
+                    document.getElementById('micLabel').innerText = 'BẬT MIC NGHE';
                 }
             };
 
             recognition.onresult = (event) => {
-                let currentText = '';
+                let transcript = '';
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    currentText += event.results[i][0].transcript;
+                    transcript += event.results[i][0].transcript;
                 }
-                document.getElementById('hearingText').innerText = currentText;
-                processTranscript(currentText);
+                document.getElementById('hearingText').innerText = transcript;
+                parseAndRun(transcript);
             };
         }
 
         function toggleMic() {
-            if (!recognition) initSpeech();
+            if (!recognition) initVoice();
             if (!recognition) return;
-
             if (isListening) {
                 isListening = false;
                 recognition.stop();
             } else {
-                try {
-                    recognition.start();
-                } catch(e) {
-                    recognition.stop();
-                    setTimeout(() => recognition.start(), 300);
-                }
+                recognition.start();
             }
         }
 
-        let lastProcessed = '';
-        function processTranscript(text) {
-            if (text.length < 5 || text === lastProcessed) return;
-            
-            // Regex detect year or full date
-            const yearMatch = text.match(/(19[7-9][0-9]|20[0-2][0-9])/);
+        let lastTxt = '';
+        function parseAndRun(text) {
+            if (text === lastTxt || text.length < 4) return;
+            const yearMatch = text.match(/(19[6-9][0-9]|20[0-2][0-9])/);
             if (yearMatch) {
-                lastProcessed = text;
+                lastTxt = text;
                 const year = parseInt(yearMatch[1]);
-                
-                // Extract name
                 let name = 'Khách Hỏi';
                 const lower = text.toLowerCase();
-                const splitKeywords = ['sinh năm', 'sinh ngay', 'sinh ngày', 'năm sinh', 'tuổi'];
-                for (let kw of splitKeywords) {
+                const splitWords = ['sinh năm', 'năm sinh', 'sinh ngay', 'sinh ngày', 'tuổi', 'sn'];
+                for (let kw of splitWords) {
                     if (lower.includes(kw)) {
                         let parts = text.split(new RegExp(kw, 'i'));
-                        let rawName = parts[0].trim();
-                        // remove leading filler words
-                        rawName = rawName.replace(/^(chào|bạn|cho|xem|coi|cho em|cho chị|cho anh|tên là|tên|khách)\s+/i, '').trim();
-                        if (rawName.length > 2) {
-                            name = rawName;
-                        }
+                        let n = parts[0].replace(/^(chào|cho|xem|coi|bạn|chị|anh|em|tên)\s+/i, '').trim();
+                        if (n.length > 1) name = n;
                         break;
                     }
                 }
-
-                calculateHexagram(name, year, text);
+                runAnalysis(name, year);
             }
         }
 
-        function calculateHexagram(name, year, fullText) {
-            const now = new Date();
-            const currentHour = now.getHours();
-            
-            // Mai Hoa math
-            let charSum = 0;
-            for (let i = 0; i < name.length; i++) charSum += name.charCodeAt(i);
-            
-            let upNum = (charSum + year) % 8 || 8;
-            let lowNum = (charSum + currentHour + now.getMinutes()) % 8 || 8;
-            let changeLine = (upNum + lowNum + currentHour) % 6 || 6;
-
-            let key = '' + upNum + lowNum;
-            let hexName = hexagramNames[key] || 'Phong Lôi Ích';
-
-            let advice = hexAdvice[hexName] || {
-                core: 'Thời vận chuyển dịch, âm dương tương khắc cần định hình lại ranh giới.',
-                detail: 'Dòng tiền có sự rò rỉ hoặc đối tác chưa hoàn toàn minh bạch, cần rà soát kỹ.',
-                action: 'Khóa sổ nợ, giữ tiền mặt phòng thủ, không nghe lời rủ rê đầu cơ mạo hiểm.'
-            };
-
-            displayResult(name, year, hexName, trigrams[upNum], trigrams[lowNum], changeLine, advice);
+        function testFast(name, year) {
+            document.getElementById('hearingText').innerText = `${name} sinh năm ${year}`;
+            runAnalysis(name, year);
         }
 
-        function displayResult(name, year, hexName, upName, lowName, line, adv) {
-            const container = document.getElementById('outputContainer');
-            container.className = 'card-result';
-            container.innerHTML = `
-                <div class="client-info">
-                    <div class="client-name">👤 ${name.toUpperCase()}</div>
-                    <div class="client-dob">NĂM SINH: ${year}</div>
-                </div>
-
-                <div class="hex-banner">
-                    <div class="hex-name">QUẺ ${hexName.toUpperCase()}</div>
-                    <div class="hex-sub">Ngoại: ${upName} | Nội: ${lowName} • Hào ${line} Động</div>
-                </div>
-
-                <div class="reading-section">
-                    <div class="bullet-item">
-                        <div class="bullet-title" style="color:#2DD4BF;">🎯 1. BẢN CHẤT NĂNG LƯỢNG</div>
-                        <div class="bullet-desc">${adv.core}</div>
-                    </div>
-                    <div class="bullet-item alert">
-                        <div class="bullet-title" style="color:#F87171;">⚠️ 2. ĐIỂM NGHẼN TỬ HUYỆT</div>
-                        <div class="bullet-desc">${adv.detail}</div>
-                    </div>
-                    <div class="bullet-item action">
-                        <div class="bullet-title" style="color:#FBBF24;">⚡ 3. KÊ ĐƠN HÀNH ĐỘNG DỨT KHOÁT</div>
-                        <div class="bullet-desc"><b>${adv.action}</b></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function handleManual() {
-            const val = document.getElementById('manualText').value;
-            if (val) processTranscript(val);
+        function submitManual() {
+            const val = document.getElementById('inpManual').value;
+            if (val) parseAndRun(val);
         }
     </script>
 </body>
