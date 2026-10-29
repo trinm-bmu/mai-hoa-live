@@ -14,7 +14,7 @@
             color: #FFFFFF;
             font-family: 'Inter', -apple-system, sans-serif;
             min-height: 100vh;
-            padding: 10px;
+            padding: 8px;
             display: flex;
             flex-direction: column;
         }
@@ -24,39 +24,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #1E293B;
             margin-bottom: 8px;
         }
         .brand-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             color: #2DD4BF;
             letter-spacing: 0.5px;
         }
-        .silent-badge {
+        .mode-pill {
             background: #022C22;
             border: 1px solid #059669;
             color: #34D399;
-            padding: 4px 10px;
-            border-radius: 14px;
-            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 800;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
-        /* Top Control Panel: STICKY AT TOP */
+        /* Control Panel */
         .control-panel {
             background: #0B1120;
             border: 1.5px solid #1E293B;
-            border-radius: 12px;
-            padding: 8px 10px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 8px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         /* Input row */
@@ -70,9 +70,9 @@
             background: #1E293B;
             border: 2px solid #334155;
             color: #FFFFFF;
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 18px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 17px;
             font-weight: 800;
             outline: none;
         }
@@ -84,37 +84,39 @@
             background: linear-gradient(135deg, #0F766E, #0D9488);
             color: #FFFFFF;
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 17px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 16px;
             font-weight: 900;
             cursor: pointer;
             white-space: nowrap;
             box-shadow: 0 0 15px rgba(13, 148, 136, 0.4);
-            transition: transform 0.1s, background 0.1s;
+            transition: all 0.1s;
         }
         .btn-submit:active {
-            transform: scale(0.95);
-            background: #115E59;
+            transform: scale(0.92);
+            background: #042F2E;
         }
         .btn-mic {
             background: #1E293B;
             border: 1.5px solid #475569;
             color: #CBD5E1;
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 15px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 800;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             white-space: nowrap;
+            transition: all 0.15s;
         }
         .btn-mic.listening {
-            background: #991B1B;
+            background: #DC2626;
             border-color: #EF4444;
             color: #FFF;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
             animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
@@ -136,9 +138,9 @@
             background: #1E293B;
             border: 1px solid #334155;
             color: #CBD5E1;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             white-space: nowrap;
             cursor: pointer;
@@ -150,46 +152,51 @@
 
         /* Status Line */
         .status-line {
-            font-size: 13px;
+            font-size: 12px;
             color: #94A3B8;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 6px;
         }
         .status-val {
             color: #5EEAD4;
             font-weight: 700;
         }
 
-        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY (32pt) */
+        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY */
         .card-main {
             background: #05070E;
             border: 2px solid #0D9488;
-            border-radius: 14px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 14px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             box-shadow: 0 0 35px rgba(13, 148, 136, 0.25);
+            transition: opacity 0.15s ease-in-out, border-color 0.2s;
+        }
+        .card-main.flash {
+            border-color: #FACC15;
+            box-shadow: 0 0 45px rgba(250, 204, 21, 0.5);
         }
 
         /* Block 1: Mệnh */
         .block-menh {
             background: #0B132B;
             border: 1.5px solid #14B8A6;
-            border-radius: 10px;
-            padding: 12px 14px;
+            border-radius: 8px;
+            padding: 10px 12px;
         }
         .menh-title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 900;
             color: #FACC15; /* Vàng rực */
             line-height: 1.25;
             margin-bottom: 4px;
         }
         .menh-trait {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #5EEAD4; /* Xanh ngọc */
             line-height: 1.35;
@@ -199,18 +206,18 @@
         .block-que {
             background: #111827;
             border: 1.5px solid #F59E0B;
-            border-radius: 10px;
-            padding: 12px 14px;
+            border-radius: 8px;
+            padding: 10px 12px;
         }
         .que-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
             color: #FB923C; /* Cam sáng */
             line-height: 1.25;
             margin-bottom: 4px;
         }
         .que-core {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #FDE047; /* Vàng */
             line-height: 1.35;
@@ -221,7 +228,7 @@
             background: #080C17;
             border-left: 6px solid #64748B;
             border-radius: 0 8px 8px 0;
-            padding: 10px 14px;
+            padding: 8px 12px;
         }
         .section-box.current { border-left-color: #60A5FA; }
         .section-box.alert { border-left-color: #EF4444; background: #140507; }
@@ -229,16 +236,16 @@
         .section-box.ally { border-left-color: #A855F7; background: #0F081C; }
 
         .sec-header {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             letter-spacing: 0.3px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
         .sec-content {
-            font-size: 21px; /* CHỮ TO RÕ NHÌN XA */
+            font-size: 20px;
             font-weight: 700;
             line-height: 1.4;
             color: #FFFFFF;
@@ -247,7 +254,7 @@
 
         /* Responsive iPad / Laptop: Scale up to 32pt */
         @media (min-width: 768px) {
-            body { padding: 24px; max-width: 980px; margin: 0 auto; }
+            body { padding: 20px; max-width: 980px; margin: 0 auto; }
             .menh-title { font-size: 32px; }
             .menh-trait { font-size: 24px; }
             .que-title { font-size: 30px; }
@@ -261,19 +268,19 @@
 
     <div class="header-bar">
         <div class="brand-title">✦ THÂN THƯƠNG LIVE ASSISTANT</div>
-        <div class="silent-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <span>CHẾ ĐỘ IM LẶNG 100% (KHÔNG TIẾNG)</span>
+        <div class="mode-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <span>IM LẶNG 100% (KHÔNG TIẾNG BÍP)</span>
         </div>
     </div>
 
     <!-- Control Panel -->
     <div class="control-panel">
         <div class="input-row">
-            <input type="text" class="inp-main" id="inpMain" placeholder="Gõ tên hoặc năm sinh (vd: 87, 95, Lan 1990)..." autocomplete="off" autocorrect="off">
-            <button class="btn-submit" id="btnSubmit" onclick="doSubmit()">XEM NGAY</button>
-            <button class="btn-mic" id="btnMic" onclick="toggleMic()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            <input type="text" class="inp-main" id="inpMain" placeholder="Gõ số năm sinh hoặc tên (vd: 87, 95, Lan 1990)..." autocomplete="off" autocorrect="off">
+            <button class="btn-submit" id="btnSubmit">XEM NGAY</button>
+            <button class="btn-mic" id="btnMic">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
                 <span id="micText">BẬT MIC</span>
             </button>
         </div>
@@ -302,8 +309,8 @@
         </div>
 
         <div class="status-line">
-            <span>Đang xem:</span>
-            <span class="status-val" id="statusVal">Đinh Mão 1987 (Bấm nút trên hoặc gõ số vào ô)</span>
+            <div>Đang xem: <span class="status-val" id="statusVal">Đinh Mão 1987</span></div>
+            <div id="micIndicator" style="font-weight:700; color:#94A3B8;">Mic: Tắt</div>
         </div>
     </div>
 
@@ -472,6 +479,11 @@
             const hexIndex = Math.abs(year + (name ? name.length : 0)) % hexDatabase.length;
             const data = hexDatabase[hexIndex];
 
+            // Flash effect to show it immediately calculated
+            const card = document.getElementById('resultCard');
+            card.classList.add('flash');
+            setTimeout(() => { card.classList.remove('flash'); }, 200);
+
             document.getElementById('statusVal').innerText = `${name || 'Khách'} • ${canChi} ${year}`;
             document.getElementById('outMenh').innerText = `${canChi.toUpperCase()} ${year} • ${menh.toUpperCase()}`;
             document.getElementById('outTrait').innerText = `✦ ĐẶC BIỆT: ${trait}`;
@@ -483,7 +495,7 @@
             document.getElementById('outAlly').innerHTML = data.ally;
         }
 
-        // Smart flexible parser
+        // Smart parser for ANY text input
         function parseAndRender(rawText) {
             let str = (rawText || '').trim();
             if (!str) {
@@ -494,7 +506,7 @@
             let year = null;
             let name = "Khách";
 
-            // Check 4 digits
+            // 1. Check 4 digits
             let m4 = str.match(/\b(19[5-9][0-9]|20[0-2][0-9])\b/);
             if (m4) {
                 year = parseInt(m4[1]);
@@ -502,7 +514,7 @@
                 clean = clean.replace(/^(chào|cho|xem|coi|chị|anh|em|bạn|tên|sinh năm|năm sinh|tuổi|sn)\s+/i, '').trim();
                 if (clean.length > 0) name = clean;
             } else {
-                // Check 2 digits
+                // 2. Check 2 digits
                 let m2 = str.match(/\b([4-9][0-9]|0[0-9]|1[0-9]|2[0-5])\b/);
                 if (m2) {
                     let val = parseInt(m2[1]);
@@ -526,11 +538,18 @@
             renderResult(name, year);
         }
 
-        // XEM NGAY button click handler
-        function doSubmit() {
+        // Setup event listeners cleanly
+        document.getElementById('btnSubmit').addEventListener('click', function() {
             const val = document.getElementById('inpMain').value;
             parseAndRender(val);
-        }
+        });
+
+        document.getElementById('inpMain').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const val = document.getElementById('inpMain').value;
+                parseAndRender(val);
+            }
+        });
 
         // 1-Tap Year chip click handler
         function tapYear(y) {
@@ -538,21 +557,14 @@
             renderResult("Khách", y);
         }
 
-        // Enter key listener
-        document.getElementById('inpMain').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                doSubmit();
-            }
-        });
-
-        // 100% SILENT MICROPHONE (NO SOUND, NO BEEP, ZERO AUDIO PLAYBACK)
+        // 100% SILENT MICROPHONE (ABSOLUTELY ZERO SOUND, ZERO BEEP, ZERO CHIME)
         let recognition = null;
         let isListening = false;
 
         function initVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert('Trình duyệt hiện tại chưa mở Micro. Mẹ bấm các nút năm sinh ở trên hoặc gõ số vào ô rồi bấm XEM NGAY cực nhanh nhé!');
+                alert('Trình duyệt chưa bật Micro. Mẹ có thể gõ năm sinh vào ô rồi bấm XEM NGAY hoặc chạm các nút năm sinh ở trên nhé!');
                 return;
             }
             recognition = new SpeechRecognition();
@@ -564,6 +576,8 @@
                 isListening = true;
                 document.getElementById('btnMic').classList.add('listening');
                 document.getElementById('micText').innerText = 'ĐANG NGHE...';
+                document.getElementById('micIndicator').innerText = '🔴 Đang nghe';
+                document.getElementById('micIndicator').style.color = '#EF4444';
             };
 
             recognition.onend = () => {
@@ -572,6 +586,8 @@
                 } else {
                     document.getElementById('btnMic').classList.remove('listening');
                     document.getElementById('micText').innerText = 'BẬT MIC';
+                    document.getElementById('micIndicator').innerText = 'Mic: Tắt';
+                    document.getElementById('micIndicator').style.color = '#94A3B8';
                 }
             };
 
@@ -585,12 +601,12 @@
             };
 
             recognition.onerror = (event) => {
-                // Completely silent: NEVER play error beep or noise
-                console.log('Silent mic status:', event.error);
+                // 100% SILENT: Never play error beep
+                console.log('Voice silent status:', event.error);
             };
         }
 
-        function toggleMic() {
+        document.getElementById('btnMic').addEventListener('click', function() {
             if (!recognition) initVoice();
             if (!recognition) return;
             if (isListening) {
@@ -599,7 +615,7 @@
             } else {
                 recognition.start();
             }
-        }
+        });
     </script>
 </body>
 </html>
