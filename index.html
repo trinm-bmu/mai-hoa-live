@@ -8,102 +8,160 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             background-color: #000000;
             color: #FFFFFF;
             font-family: 'Inter', -apple-system, sans-serif;
             min-height: 100vh;
-            padding: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
         }
-        
-        /* Top Bar */
-        .top-bar {
+
+        /* Top Header */
+        .header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #222;
-            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1E293B;
+            margin-bottom: 8px;
         }
         .brand-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             color: #2DD4BF;
             letter-spacing: 0.5px;
         }
-        .mic-toggle {
-            background: #0F766E;
-            color: #FFF;
+        .silent-badge {
+            background: #022C22;
+            border: 1px solid #059669;
+            color: #34D399;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Top Control Panel: STICKY AT TOP */
+        .control-panel {
+            background: #0B1120;
+            border: 1.5px solid #1E293B;
+            border-radius: 12px;
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Input row */
+        .input-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .inp-main {
+            flex: 1;
+            background: #1E293B;
+            border: 2px solid #334155;
+            color: #FFFFFF;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            outline: none;
+        }
+        .inp-main:focus {
+            border-color: #14B8A6;
+            background: #0F172A;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #0F766E, #0D9488);
+            color: #FFFFFF;
             border: none;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-size: 16px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 0 15px rgba(13, 148, 136, 0.4);
+            transition: transform 0.1s, background 0.1s;
+        }
+        .btn-submit:active {
+            transform: scale(0.95);
+            background: #115E59;
+        }
+        .btn-mic {
+            background: #1E293B;
+            border: 1.5px solid #475569;
+            color: #CBD5E1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 0 15px rgba(15, 118, 110, 0.6);
-            transition: all 0.2s;
+            gap: 5px;
+            white-space: nowrap;
         }
-        .mic-toggle.listening {
-            background: #DC2626;
-            box-shadow: 0 0 25px rgba(220, 38, 38, 0.8);
+        .btn-mic.listening {
+            background: #991B1B;
+            border-color: #EF4444;
+            color: #FFF;
             animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
 
-        /* Quick Test Bar */
-        .quick-bar {
+        /* 1-Tap Year Chips Bar */
+        .year-scroll {
             display: flex;
             gap: 6px;
             overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            padding: 2px 0;
+            scrollbar-width: none;
         }
-        .quick-btn {
-            background: #111827;
-            border: 1px solid #374151;
-            color: #9CA3AF;
+        .year-scroll::-webkit-scrollbar { display: none; }
+        .chip-year {
+            background: #1E293B;
+            border: 1px solid #334155;
+            color: #CBD5E1;
             padding: 6px 12px;
             border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             white-space: nowrap;
             cursor: pointer;
         }
-        .quick-btn:hover {
-            background: #1F2937;
-            color: #F3F4F6;
-            border-color: #0D9488;
+        .chip-year:active {
+            background: #0D9488;
+            color: #FFF;
         }
 
-        /* Voice Status Banner */
-        .hearing-banner {
-            background: #0B1120;
-            border: 1px solid #1E293B;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 14px;
+        /* Status Line */
+        .status-line {
+            font-size: 13px;
             color: #94A3B8;
-            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
-        .hearing-text {
-            color: #F8FAFC;
+        .status-val {
+            color: #5EEAD4;
             font-weight: 700;
         }
 
-        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY */
+        /* MAIN RESULT CARD - GIANT FONT FOR LIVE READABILITY (32pt) */
         .card-main {
             background: #05070E;
             border: 2px solid #0D9488;
@@ -158,31 +216,20 @@
             line-height: 1.35;
         }
 
-        /* Content Blocks: 4 Section Grid / List */
+        /* Content Blocks: 4 Section Grid */
         .section-box {
             background: #080C17;
             border-left: 6px solid #64748B;
             border-radius: 0 8px 8px 0;
             padding: 10px 14px;
         }
-        .section-box.current {
-            border-left-color: #60A5FA; /* Xanh dương */
-        }
-        .section-box.alert {
-            border-left-color: #EF4444; /* Đỏ rực */
-            background: #140507;
-        }
-        .section-box.lucky {
-            border-left-color: #10B981; /* Xanh lá */
-            background: #02170D;
-        }
-        .section-box.ally {
-            border-left-color: #A855F7; /* Tím */
-            background: #0F081C;
-        }
+        .section-box.current { border-left-color: #60A5FA; }
+        .section-box.alert { border-left-color: #EF4444; background: #140507; }
+        .section-box.lucky { border-left-color: #10B981; background: #02170D; }
+        .section-box.ally { border-left-color: #A855F7; background: #0F081C; }
 
         .sec-header {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 900;
             letter-spacing: 0.3px;
             margin-bottom: 6px;
@@ -191,81 +238,76 @@
             gap: 6px;
         }
         .sec-content {
-            font-size: 21px; /* CHỮ CỰC TO 21-26px THEO YÊU CẦU */
+            font-size: 21px; /* CHỮ TO RÕ NHÌN XA */
             font-weight: 700;
             line-height: 1.4;
             color: #FFFFFF;
         }
-        .sec-content b {
-            color: #FDE047;
-        }
+        .sec-content b { color: #FDE047; }
 
-        /* Input Manual Bottom */
-        .manual-bar {
-            margin-top: 10px;
-            display: flex;
-            gap: 6px;
-        }
-        .manual-input {
-            flex: 1;
-            background: #111827;
-            border: 1px solid #374151;
-            color: #FFF;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .manual-btn {
-            background: #0D9488;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        /* Responsive scaling */
+        /* Responsive iPad / Laptop: Scale up to 32pt */
         @media (min-width: 768px) {
-            body { padding: 24px; max-width: 950px; margin: 0 auto; }
+            body { padding: 24px; max-width: 980px; margin: 0 auto; }
             .menh-title { font-size: 32px; }
             .menh-trait { font-size: 24px; }
             .que-title { font-size: 30px; }
             .que-core { font-size: 24px; }
             .sec-header { font-size: 24px; }
-            .sec-content { font-size: 26px; } /* Đạt mốc 26-32pt trên iPad/Laptop */
+            .sec-content { font-size: 26px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
+    <div class="header-bar">
         <div class="brand-title">✦ THÂN THƯƠNG LIVE ASSISTANT</div>
-        <button class="mic-toggle" id="btnMic" onclick="toggleMic()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-            <span id="micLabel">BẬT MIC NGHE</span>
-        </button>
+        <div class="silent-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <span>CHẾ ĐỘ IM LẶNG 100% (KHÔNG TIẾNG)</span>
+        </div>
     </div>
 
-    <!-- Quick Buttons for instant test -->
-    <div class="quick-bar">
-        <button class="quick-btn" onclick="testFast('Lan', 1987)">Đinh Mão 1987</button>
-        <button class="quick-btn" onclick="testFast('Hải', 1990)">Canh Ngọ 1990</button>
-        <button class="quick-btn" onclick="testFast('Hương', 1995)">Ất Hợi 1995</button>
-        <button class="quick-btn" onclick="testFast('Tuấn', 1988)">Mậu Thìn 1988</button>
-        <button class="quick-btn" onclick="testFast('Linh', 2002)">Nhâm Ngọ 2002</button>
-        <button class="quick-btn" onclick="testFast('Thành', 1983)">Quý Hợi 1983</button>
-        <button class="quick-btn" onclick="testFast('Nga', 1992)">Nhâm Thân 1992</button>
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="input-row">
+            <input type="text" class="inp-main" id="inpMain" placeholder="Gõ tên hoặc năm sinh (vd: 87, 95, Lan 1990)..." autocomplete="off" autocorrect="off">
+            <button class="btn-submit" id="btnSubmit" onclick="doSubmit()">XEM NGAY</button>
+            <button class="btn-mic" id="btnMic" onclick="toggleMic()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                <span id="micText">BẬT MIC</span>
+            </button>
+        </div>
+
+        <!-- 1-Tap Year Chips Bar -->
+        <div class="year-scroll">
+            <button class="chip-year" onclick="tapYear(1983)">1983</button>
+            <button class="chip-year" onclick="tapYear(1984)">1984</button>
+            <button class="chip-year" onclick="tapYear(1986)">1986</button>
+            <button class="chip-year" onclick="tapYear(1987)">1987</button>
+            <button class="chip-year" onclick="tapYear(1988)">1988</button>
+            <button class="chip-year" onclick="tapYear(1989)">1989</button>
+            <button class="chip-year" onclick="tapYear(1990)">1990</button>
+            <button class="chip-year" onclick="tapYear(1991)">1991</button>
+            <button class="chip-year" onclick="tapYear(1992)">1992</button>
+            <button class="chip-year" onclick="tapYear(1993)">1993</button>
+            <button class="chip-year" onclick="tapYear(1994)">1994</button>
+            <button class="chip-year" onclick="tapYear(1995)">1995</button>
+            <button class="chip-year" onclick="tapYear(1996)">1996</button>
+            <button class="chip-year" onclick="tapYear(1997)">1997</button>
+            <button class="chip-year" onclick="tapYear(1998)">1998</button>
+            <button class="chip-year" onclick="tapYear(1999)">1999</button>
+            <button class="chip-year" onclick="tapYear(2000)">2000</button>
+            <button class="chip-year" onclick="tapYear(2002)">2002</button>
+            <button class="chip-year" onclick="tapYear(2008)">2008</button>
+        </div>
+
+        <div class="status-line">
+            <span>Đang xem:</span>
+            <span class="status-val" id="statusVal">Đinh Mão 1987 (Bấm nút trên hoặc gõ số vào ô)</span>
+        </div>
     </div>
 
-    <div class="hearing-banner">
-        <span>Mic:</span>
-        <span class="hearing-text" id="hearingText">Bấm 'BẬT MIC' rồi đọc tên + năm sinh (Vd: "Chị Hạnh 1987")...</span>
-    </div>
-
-    <!-- MAIN RESULT CONTAINER (DEFAULT SAMPLE) -->
+    <!-- MAIN RESULT CONTAINER -->
     <div class="card-main" id="resultCard">
         <!-- 1. Mệnh Block -->
         <div class="block-menh">
@@ -314,12 +356,6 @@
                 • <b>Nhận diện:</b> Điềm đạm, ít nói, ăn mặc tối giản, từ phương Tây Bắc đến.
             </div>
         </div>
-    </div>
-
-    <!-- Manual input bar -->
-    <div class="manual-bar">
-        <input type="text" class="manual-input" id="inpManual" placeholder="Gõ nhanh: Tên + Năm sinh (Vd: Lan 1995)...">
-        <button class="manual-btn" onclick="submitManual()">XEM NGAY</button>
     </div>
 
     <script>
@@ -379,10 +415,10 @@
                 que: 'THIÊN LÔI VÔ VỌNG ➔ THIÊN ĐỊA BĨ',
                 line: 'HÀO 1 ĐỘNG',
                 core: 'Tiền treo trên giấy • Càng vùng vẫy càng kẹt vốn',
-                current: '• Cho nợ gối đầu cả nể. Tiền lẻ trôi, tiền chẵn kẹt.<br>• Ôm đồm làm thay nhân sự. Đầu óc quá tải, kiệt quệ.',
-                danger: '• <b>[Thứ Tư – Thứ Năm]:</b> Nguy cơ đối tác bùng nợ / hủy cọc phút 89.<br>• <b>[Thứ Bảy]:</b> Tránh ký hợp đồng mới, cấm xuất hàng nợ.',
-                lucky: '• <b>[Thứ Sáu / Mùng 1]:</b> Thu được 1 khoản tiền tươi bất ngờ.<br>• Có người mở lời kết nối nguồn hàng mới.',
-                ally: '• <b>Chân dung:</b> Nam lớn hơn 4–6 tuổi (tuổi Hợi/Mùi), làm mảng kỹ thuật/vốn.<br>• <b>Nhận diện:</b> Ít nói, ăn mặc tối giản, phương Tây Bắc đến.'
+                current: '• Cho nợ gối đầu cả nể. Tiền lẻ trôi, tiền chẵn kẹt.<br>• Ôm đồm làm thay nhân sự. Đầu óc quá tải, kiệt quệ năng lượng.',
+                danger: '• <b>[Thứ Tư – Thứ Năm]:</b> Nguy cơ đối tác bùng nợ / hủy cọc phút 89.<br>• <b>[Thứ Bảy]:</b> Tránh ký hợp đồng mới, tuyệt đối cấm xuất hàng gối đầu.',
+                lucky: '• <b>[Thứ Sáu / Mùng 1]:</b> Thu hồi được 1 khoản tiền tươi bất ngờ.<br>• Có người mở lời kết nối nguồn hàng mới.',
+                ally: '• <b>Chân dung:</b> Nam lớn hơn 4–6 tuổi (tuổi Hợi/Mùi), làm mảng kỹ thuật/vốn.<br>• <b>Nhận diện:</b> Ít nói, ăn mặc tối giản, từ phương Tây Bắc đến.'
             },
             {
                 que: 'SƠN PHONG CỔ ➔ SƠN THIÊN ĐẠI SÚC',
@@ -422,18 +458,21 @@
             }
         ];
 
-        function runAnalysis(name, year) {
+        // Core Render Function
+        function renderResult(name, year) {
+            year = parseInt(year);
+            if (!year || isNaN(year)) year = 1990;
+
             const can = canList[year % 10];
             const chi = chiList[year % 12];
             const canChi = can + ' ' + chi;
             const menh = menh60[canChi] || 'Ngũ hành tương hợp';
             const trait = traitSpecial[chi] || 'Tâm tính thiện lương, nặng lòng gánh vác';
 
-            // Select hexagram systematically
-            const hexIndex = (year + name.length) % hexDatabase.length;
+            const hexIndex = Math.abs(year + (name ? name.length : 0)) % hexDatabase.length;
             const data = hexDatabase[hexIndex];
 
-            // Render to DOM
+            document.getElementById('statusVal').innerText = `${name || 'Khách'} • ${canChi} ${year}`;
             document.getElementById('outMenh').innerText = `${canChi.toUpperCase()} ${year} • ${menh.toUpperCase()}`;
             document.getElementById('outTrait').innerText = `✦ ĐẶC BIỆT: ${trait}`;
             document.getElementById('outQue').innerText = `[QUẺ 7 NGÀY]: ${data.que} (${data.line})`;
@@ -444,14 +483,76 @@
             document.getElementById('outAlly').innerHTML = data.ally;
         }
 
-        // Voice Recognition
+        // Smart flexible parser
+        function parseAndRender(rawText) {
+            let str = (rawText || '').trim();
+            if (!str) {
+                renderResult("Khách", 1987);
+                return;
+            }
+
+            let year = null;
+            let name = "Khách";
+
+            // Check 4 digits
+            let m4 = str.match(/\b(19[5-9][0-9]|20[0-2][0-9])\b/);
+            if (m4) {
+                year = parseInt(m4[1]);
+                let clean = str.replace(m4[0], '').trim();
+                clean = clean.replace(/^(chào|cho|xem|coi|chị|anh|em|bạn|tên|sinh năm|năm sinh|tuổi|sn)\s+/i, '').trim();
+                if (clean.length > 0) name = clean;
+            } else {
+                // Check 2 digits
+                let m2 = str.match(/\b([4-9][0-9]|0[0-9]|1[0-9]|2[0-5])\b/);
+                if (m2) {
+                    let val = parseInt(m2[1]);
+                    year = val >= 40 ? 1900 + val : 2000 + val;
+                    let clean = str.replace(m2[0], '').trim();
+                    clean = clean.replace(/^(chào|cho|xem|coi|chị|anh|em|bạn|tên|sinh năm|năm sinh|tuổi|sn)\s+/i, '').trim();
+                    if (clean.length > 0) name = clean;
+                } else {
+                    let digits = str.replace(/\D/g, '');
+                    if (digits.length >= 4) {
+                        let y = parseInt(digits.substring(0, 4));
+                        if (y >= 1950 && y <= 2029) year = y;
+                    } else if (digits.length === 2) {
+                        let val = parseInt(digits);
+                        year = val >= 40 ? 1900 + val : 2000 + val;
+                    }
+                }
+            }
+
+            if (!year) year = 1990;
+            renderResult(name, year);
+        }
+
+        // XEM NGAY button click handler
+        function doSubmit() {
+            const val = document.getElementById('inpMain').value;
+            parseAndRender(val);
+        }
+
+        // 1-Tap Year chip click handler
+        function tapYear(y) {
+            document.getElementById('inpMain').value = y;
+            renderResult("Khách", y);
+        }
+
+        // Enter key listener
+        document.getElementById('inpMain').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                doSubmit();
+            }
+        });
+
+        // 100% SILENT MICROPHONE (NO SOUND, NO BEEP, ZERO AUDIO PLAYBACK)
         let recognition = null;
         let isListening = false;
 
         function initVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert('Vui lòng dùng trình duyệt Google Chrome để bật Micro!');
+                alert('Trình duyệt hiện tại chưa mở Micro. Mẹ bấm các nút năm sinh ở trên hoặc gõ số vào ô rồi bấm XEM NGAY cực nhanh nhé!');
                 return;
             }
             recognition = new SpeechRecognition();
@@ -462,7 +563,7 @@
             recognition.onstart = () => {
                 isListening = true;
                 document.getElementById('btnMic').classList.add('listening');
-                document.getElementById('micLabel').innerText = 'ĐANG NGHE...';
+                document.getElementById('micText').innerText = 'ĐANG NGHE...';
             };
 
             recognition.onend = () => {
@@ -470,7 +571,7 @@
                     try { recognition.start(); } catch(e){}
                 } else {
                     document.getElementById('btnMic').classList.remove('listening');
-                    document.getElementById('micLabel').innerText = 'BẬT MIC NGHE';
+                    document.getElementById('micText').innerText = 'BẬT MIC';
                 }
             };
 
@@ -479,8 +580,13 @@
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
                     transcript += event.results[i][0].transcript;
                 }
-                document.getElementById('hearingText').innerText = transcript;
-                parseAndRun(transcript);
+                document.getElementById('inpMain').value = transcript;
+                parseAndRender(transcript);
+            };
+
+            recognition.onerror = (event) => {
+                // Completely silent: NEVER play error beep or noise
+                console.log('Silent mic status:', event.error);
             };
         }
 
@@ -493,38 +599,6 @@
             } else {
                 recognition.start();
             }
-        }
-
-        let lastTxt = '';
-        function parseAndRun(text) {
-            if (text === lastTxt || text.length < 4) return;
-            const yearMatch = text.match(/(19[6-9][0-9]|20[0-2][0-9])/);
-            if (yearMatch) {
-                lastTxt = text;
-                const year = parseInt(yearMatch[1]);
-                let name = 'Khách Hỏi';
-                const lower = text.toLowerCase();
-                const splitWords = ['sinh năm', 'năm sinh', 'sinh ngay', 'sinh ngày', 'tuổi', 'sn'];
-                for (let kw of splitWords) {
-                    if (lower.includes(kw)) {
-                        let parts = text.split(new RegExp(kw, 'i'));
-                        let n = parts[0].replace(/^(chào|cho|xem|coi|bạn|chị|anh|em|tên)\s+/i, '').trim();
-                        if (n.length > 1) name = n;
-                        break;
-                    }
-                }
-                runAnalysis(name, year);
-            }
-        }
-
-        function testFast(name, year) {
-            document.getElementById('hearingText').innerText = `${name} sinh năm ${year}`;
-            runAnalysis(name, year);
-        }
-
-        function submitManual() {
-            const val = document.getElementById('inpManual').value;
-            if (val) parseAndRun(val);
         }
     </script>
 </body>
